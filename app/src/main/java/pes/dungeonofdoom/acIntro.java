@@ -91,6 +91,8 @@ public class acIntro extends AppCompatActivity {
                         //проверяем, что канва не null, и можно рисовать
                         if (canvas == null)
                             continue;
+                        int h = canvas.getHeight();
+                        int w = canvas.getWidth();
                         canvas.drawColor(Color.GREEN);
                     } finally {
                         if (canvas != null) {
