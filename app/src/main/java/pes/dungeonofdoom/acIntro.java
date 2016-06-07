@@ -3,6 +3,8 @@ package pes.dungeonofdoom;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.SurfaceHolder;
@@ -63,7 +65,7 @@ public class acIntro extends AppCompatActivity {
         }
 
         //поток прорисовки, в нем и будет происходить рисование
-        public class DrawThread extends Thread {
+        class DrawThread extends Thread {
             private boolean running = false;
             private SurfaceHolder surfaceHolder;
 
@@ -91,7 +93,7 @@ public class acIntro extends AppCompatActivity {
                         //проверяем, что канва не null, и можно рисовать
                         if (canvas == null)
                             continue;
-                        canvas.drawColor(Color.GREEN);
+                        drawFigs(canvas);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем
@@ -100,6 +102,38 @@ public class acIntro extends AppCompatActivity {
                         }
                     }
                 }
+            }
+
+            public void drawFigs(Canvas canv) {
+                Paint p = new Paint();
+                Rect rect = new Rect();
+                // заливка канвы цветом
+                canv.drawARGB(80, 102, 204, 255);
+
+                // настройка кисти
+                // красный цвет
+                p.setColor(Color.RED);
+                // толщина линии = 10
+                p.setStrokeWidth(10);
+
+                // рисуем точку (50,50)
+                canv.drawPoint(50, 50, p);
+
+                // рисуем линию от (100,100) до (500,50)
+                canv.drawLine(100,100,500,50,p);
+
+                // рисуем круг с центром в (100,200), радиус = 50
+                canv.drawCircle(100, 200, 50, p);
+
+                // рисуем прямоугольник
+                // левая верхняя точка (200,150), нижняя правая (400,200)
+                canv.drawRect(200, 150, 400, 200, p);
+
+                // настройка объекта Rect
+                // левая верхняя точка (250,300), нижняя правая (350,500)
+                rect.set(250, 300, 350, 500);
+                // рисуем прямоугольник из объекта rect
+                canv.drawRect(rect, p);
             }
         }
     }
