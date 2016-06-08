@@ -9,7 +9,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
-public class acIntro extends AppCompatActivity implements View.OnTouchListener{
+public class acMenu extends AppCompatActivity implements View.OnTouchListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
                         if (canvas == null)
                             continue;
                         //метод для рисования
-                        DrawBGround.drawBGround(this, canvas, R.drawable.title);
+                        DrawBGround.drawBGround(this, canvas, R.drawable.menu);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем
@@ -110,6 +110,4 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
             }
         }
     }
-
-
 }
