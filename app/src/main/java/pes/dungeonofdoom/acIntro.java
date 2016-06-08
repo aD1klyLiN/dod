@@ -1,6 +1,7 @@
 package pes.dungeonofdoom;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,9 +19,24 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
         setContentView(new DrawView(this));
     }
 
+    public void startMenu() {
+        //вызов экрана меню и закрытие приветствия
+        Intent intent = new Intent(this, acMenu.class);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        return false;
+        //обработаем нажатие на экран
+        startMenu();
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        startMenu();
+        super.onBackPressed();
     }
 
     class DrawView extends SurfaceView implements SurfaceHolder.Callback{
