@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -103,6 +104,7 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
                         //проверяем, что канва не null, и можно рисовать
                         if (canvas == null)
                             continue;
+                        //метод для рисования
                         drawIntro(canvas);
                     } finally {
                         if (canvas != null) {
@@ -116,37 +118,41 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
 
             void drawIntro(Canvas canv) {
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                int h = canv.getHeight();
-                int w = canv.getWidth();
+                int cHeight = canv.getHeight();
+                int cWidth = canv.getWidth();
                 Bitmap bitmap = decodeSampledBitmapFromResource(getResources(),
-                        R.drawable.title, w, h);
-                Rect rectSrc = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
-                Rect rectDst = new Rect(0, 0, w, h);
-                /*Rect rectDst = new Rect((w-bitmap.getWidth())/2, (h-bitmap.getHeight())/2,
-                        (w-bitmap.getWidth())/2+bitmap.getWidth(),
-                        (h-bitmap.getHeight())/2+bitmap.getHeight());*/
-                canv.drawBitmap(bitmap, rectSrc, rectDst, paint);
+                        R.drawable.title, cWidth, cHeight);
+                int bWidth = bitmap.getWidth();
+                int bHeight = bitmap.getHeight();
+                Matrix matrix = new Matrix();
+                matrix.postTranslate(0, 0);
+                if (cWidth/bWidth<cHeight/bHeight) {
+                    matrix.postScale(cWidth/bWidth, cWidth/bWidth);
+                } else {
+                    matrix.postScale(cHeight/bHeight, cHeight/bHeight);
+                }
+                canv.drawBitmap(bitmap, matrix, paint);
             }
 
             public Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                                  int reqWidth, int reqHeight) {
 
-                // First decode with inJustDecodeBounds=true to check dimensions
+                // Читаем с inJustDecodeBounds=true для определения размеров
                 final BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inJustDecodeBounds = true;
                 BitmapFactory.decodeResource(res, resId, options);
 
-                // Calculate inSampleSize
+                // Вычисляем inSampleSize
                 options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
 
-                // Decode bitmap with inSampleSize set
+                // Читаем с использованием inSampleSize коэффициента
                 options.inJustDecodeBounds = false;
                 return BitmapFactory.decodeResource(res, resId, options);
             }
 
             public int calculateInSampleSize(
                     BitmapFactory.Options options, int reqWidth, int reqHeight) {
-                // Raw height and width of image
+                // Реальные размеры изображения
                 final int height = options.outHeight;
                 final int width = options.outWidth;
                 int inSampleSize = 1;
@@ -156,8 +162,8 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
                     final int halfHeight = height / 2;
                     final int halfWidth = width / 2;
 
-                    // Calculate the largest inSampleSize value that is a power of 2 and keeps both
-                    // height and width larger than the requested height and width.
+                    // Вычисляем наибольший inSampleSize, который будет кратным двум
+                    // и оставит полученные размеры больше, чем требуемые
                     while ((halfHeight / inSampleSize) > reqHeight
                             && (halfWidth / inSampleSize) > reqWidth) {
                         inSampleSize *= 2;
