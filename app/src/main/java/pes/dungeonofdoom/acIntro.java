@@ -80,6 +80,11 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
                     drawThread.join();
                     retry = false;
                 } catch (InterruptedException e) {
+                    /*AlertDialog.Builder bld = new AlertDialog.Builder(acIntro.this);
+                    bld.setTitle("ERROR!!!")
+                            .setCancelable(false);
+                    AlertDialog ad = bld.create();
+                    ad.show();*/
                 }
             }
         }
