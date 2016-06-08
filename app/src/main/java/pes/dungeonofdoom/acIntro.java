@@ -124,14 +124,27 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
                         R.drawable.title, cWidth, cHeight);
                 int bWidth = bitmap.getWidth();
                 int bHeight = bitmap.getHeight();
-                Matrix matrix = new Matrix();
-                matrix.postTranslate(0, 0);
-                if (cWidth/bWidth<cHeight/bHeight) {
-                    matrix.postScale(cWidth/bWidth, cWidth/bWidth);
+                int x1, y1, x2, y2;
+                double sX = (double)cWidth/bWidth;
+                double sY = (double)cHeight/bHeight;
+                if (sX>sY) {
+                    x1 = (int)(cWidth-bWidth*sY)/2;
+                    y1 = 0;
+                    x2 = (int)(x1 + bWidth*sY);
+                    y2 = cHeight;
                 } else {
-                    matrix.postScale(cHeight/bHeight, cHeight/bHeight);
+                    x1 = 0;
+                    y1 = (int)(cHeight-bHeight*sX)/2;
+                    x2 = cWidth;
+                    y2 = (int)(y1 + bHeight*sX);
                 }
-                canv.drawBitmap(bitmap, matrix, paint);
+                Rect rectSrc = new Rect(0, 0, bWidth, bHeight);
+                Rect rectDst = new Rect(x1, y1, x2, y2);
+                /*Rect rectDst = new Rect((w-bitmap.getWidth())/2, (h-bitmap.getHeight())/2,
+                        (w-bitmap.getWidth())/2+bitmap.getWidth(),
+                        (h-bitmap.getHeight())/2+bitmap.getHeight());*/
+                canv.drawARGB(100, 0, 0, 0);
+                canv.drawBitmap(bitmap, rectSrc, rectDst, paint);
             }
 
             public Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
@@ -147,6 +160,7 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
 
                 // Читаем с использованием inSampleSize коэффициента
                 options.inJustDecodeBounds = false;
+                options.inPreferredConfig = Bitmap.Config.RGB_565;
                 return BitmapFactory.decodeResource(res, resId, options);
             }
 
