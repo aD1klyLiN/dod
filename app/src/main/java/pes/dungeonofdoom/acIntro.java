@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
 public class acIntro extends AppCompatActivity implements View.OnTouchListener{
+
+    public static final String TAG = "myTag";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +22,12 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
         DrawView drawView = new DrawView(this);
         drawView.setOnTouchListener(this);
         setContentView(drawView);
+        Log.d(TAG, "create acIntro");
     }
 
     public void startMenu() {
         //вызов экрана меню и закрытие приветствия
+        Log.d(TAG, "create acMenu");
         Intent intent = new Intent(this, acMenu.class);
         startActivity(intent);
         finish();
@@ -31,8 +36,15 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         //обработаем нажатие на экран
-        onBackPressed();
-        return true;
+        boolean action;
+        if (event.getAction()==MotionEvent.ACTION_DOWN) {
+            action = true;
+            Log.d(TAG, "startMenu from onTouch");
+            startMenu();
+        } else {
+            action = false;
+        }
+        return action;
     }
 
     @Override
