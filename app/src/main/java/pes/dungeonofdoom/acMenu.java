@@ -2,6 +2,7 @@ package pes.dungeonofdoom;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -11,16 +12,40 @@ import android.view.View;
 
 public class acMenu extends AppCompatActivity implements View.OnTouchListener{
 
+    DrawView drawView = new DrawView(this);
+    float[] itemCoords = new float[8];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //в метод onCreate передаём объект DrawView
-        setContentView(new DrawView(this));
+        drawView.setOnTouchListener(this);
+        setContentView(drawView);
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        RectF[] rectItems = new RectF[4];
+        rectItems[0] = getRectF(itemCoords[0], itemCoords[1]);
+        rectItems[1] = getRectF(itemCoords[2], itemCoords[3]);
+        rectItems[2] = getRectF(itemCoords[4], itemCoords[5]);
+        rectItems[3] = getRectF(itemCoords[6], itemCoords[6]);
+        if (event.getAction()==MotionEvent.ACTION_DOWN) {
+            if (rectItems[0].contains(event.getX(), event.getY())) {
+
+            } else if (rectItems[1].contains(event.getX(), event.getY())) {
+
+            } else if (rectItems[2].contains(event.getX(), event.getY())) {
+
+            } else if (rectItems[3].contains(event.getX(), event.getY())) {
+
+            }
+        }
         return false;
+    }
+
+    RectF getRectF (float x, float y) {
+        return new RectF(x-25, y-200, x+25, y+200);
     }
 
     class DrawView extends SurfaceView implements SurfaceHolder.Callback{
@@ -98,7 +123,8 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
                         if (canvas == null)
                             continue;
                         //метод для рисования
-                        DrawBGround.drawBGround(acMenu.this, canvas, R.drawable.menu);
+                        DrawMenu.drawBGround(acMenu.this, canvas, R.drawable.menu);
+                        itemCoords = DrawMenu.drawMenuItems(acMenu.this, canvas);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем

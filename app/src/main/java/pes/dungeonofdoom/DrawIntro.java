@@ -10,8 +10,9 @@ import android.graphics.Rect;
 
 /**
  * Created by lylin on 08.06.16.
+ * отрисовка Intro
  */
-public class DrawBGround {
+public class DrawIntro {
 
     static void drawBGround(Context ctx, Canvas canv, int resID) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
