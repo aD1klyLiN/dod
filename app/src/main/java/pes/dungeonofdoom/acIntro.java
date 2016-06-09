@@ -16,7 +16,9 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //в метод onCreate передаём объект DrawView
-        setContentView(new DrawView(this));
+        DrawView drawView = new DrawView(this);
+        drawView.setOnTouchListener(this);
+        setContentView(drawView);
     }
 
     public void startMenu() {
@@ -29,7 +31,7 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         //обработаем нажатие на экран
-        startMenu();
+        onBackPressed();
         return true;
     }
 
