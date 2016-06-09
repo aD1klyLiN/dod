@@ -119,7 +119,7 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
                         if (canvas == null)
                             continue;
                         //метод для рисования
-                        DrawBGround.drawBGround(this, canvas, R.drawable.title);
+                        DrawBGround.drawBGround(acIntro.this, canvas, R.drawable.title);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем
