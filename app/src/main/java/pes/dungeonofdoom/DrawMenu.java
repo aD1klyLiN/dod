@@ -7,11 +7,14 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.util.Log;
 
 /**
  * Created by lylin on 09.06.16.
  */
 public class DrawMenu {
+
+    public static final String TAG = "myTag";
 
     static void drawBGround(Context ctx, Canvas canv, int resID) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -26,49 +29,41 @@ public class DrawMenu {
         canv.drawBitmap(bitmap, rectSrc, rectDst, paint);
     }
 
-    static float[] drawMenuItems (Context ctx, Canvas canv) {
-        float[] itemCoords = new float[8];
+    static void drawMenuItems (Context ctx, Canvas canv, RectF[] itemCoords) {
+
         Paint paint = new Paint();
-        int centerX = canv.getWidth()/2;
-        int centerY = canv.getHeight()/2;
+        String coords;
 
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(24);
 
-        RectF menuItem = new RectF(centerX, centerY, centerX + 400, centerY + 50);
-
-        menuItem.offset(-200, -115);
-        itemCoords[0] = menuItem.centerX();
-        itemCoords[1] = menuItem.centerY();
+        //Log.d(TAG, "item 1 is " + itemCoords[0].toString());
         paint.setColor(Color.WHITE);
-        canv.drawRect(menuItem, paint);
+        canv.drawRect(itemCoords[0], paint);
         paint.setColor(Color.BLACK);
-        canv.drawText("Новая игра", menuItem.centerX(), menuItem.centerY(), paint);
+        canv.drawText("Новая игра", itemCoords[0].centerX(),
+                itemCoords[0].centerY() + paint.getTextSize()/2, paint);
 
-        menuItem.offset(0, 60);
-        itemCoords[2] = menuItem.centerX();
-        itemCoords[3] = menuItem.centerY();
+        //Log.d(TAG, "item 2 is " + itemCoords[1].toString());
         paint.setColor(Color.WHITE);
-        canv.drawRect(menuItem, paint);
+        canv.drawRect(itemCoords[1], paint);
         paint.setColor(Color.BLACK);
-        canv.drawText("Продолжить", menuItem.centerX(), menuItem.centerY(), paint);
+        canv.drawText("Продолжить", itemCoords[1].centerX(),
+                itemCoords[1].centerY() + paint.getTextSize()/2, paint);
 
-        menuItem.offset(0, 60);
-        itemCoords[4] = menuItem.centerX();
-        itemCoords[5] = menuItem.centerY();
+        //Log.d(TAG, "item 3 is " + itemCoords[2].toString());
         paint.setColor(Color.WHITE);
-        canv.drawRect(menuItem, paint);
+        canv.drawRect(itemCoords[2], paint);
         paint.setColor(Color.BLACK);
-        canv.drawText("Инструкции", menuItem.centerX(), menuItem.centerY(), paint);
+        canv.drawText("Инструкции", itemCoords[2].centerX(),
+                itemCoords[2].centerY() + paint.getTextSize()/2, paint);
 
-        menuItem.offset(0, 60);
-        itemCoords[6] = menuItem.centerX();
-        itemCoords[7] = menuItem.centerY();
+        //Log.d(TAG, "item 4 is " + itemCoords[3].toString());
         paint.setColor(Color.WHITE);
-        canv.drawRect(menuItem, paint);
+        canv.drawRect(itemCoords[3], paint);
         paint.setColor(Color.BLACK);
-        canv.drawText("Выход", menuItem.centerX(), menuItem.centerY(), paint);
+        canv.drawText("Выход", itemCoords[3].centerX(),
+                itemCoords[3].centerY() + paint.getTextSize()/2, paint);
 
-        return itemCoords;
     }
 }

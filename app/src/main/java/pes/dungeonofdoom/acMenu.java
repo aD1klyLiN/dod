@@ -15,37 +15,39 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
 
     public static final String TAG = "myTag";
 
-    DrawView drawView = new DrawView(acMenu.this);
-    float[] itemCoords = new float[8];
+    DrawView drawView;
+    RectF[] itemCoords;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "launch acMenu onCreate");
         super.onCreate(savedInstanceState);
         //в метод onCreate передаём объект DrawView
+        drawView = new DrawView(acMenu.this);
         drawView.setOnTouchListener(this);
         setContentView(drawView);
+
+        itemCoords = new RectF[4];
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        RectF[] rectItems = new RectF[4];
-        rectItems[0] = getRectF(itemCoords[0], itemCoords[1]);
-        rectItems[1] = getRectF(itemCoords[2], itemCoords[3]);
-        rectItems[2] = getRectF(itemCoords[4], itemCoords[5]);
-        rectItems[3] = getRectF(itemCoords[6], itemCoords[6]);
         if (event.getAction()==MotionEvent.ACTION_DOWN) {
-            if (rectItems[0].contains(event.getX(), event.getY())) {
-                Log.d(TAG, "press New Game");
-            } else if (rectItems[1].contains(event.getX(), event.getY())) {
-                Log.d(TAG, "press Continue");
-            } else if (rectItems[2].contains(event.getX(), event.getY())) {
-                Log.d(TAG, "press Instructions");
-            } else if (rectItems[3].contains(event.getX(), event.getY())) {
-                Log.d(TAG, "press Quit");
+            if (itemCoords[0].contains(event.getX(), event.getY())) {
+                Log.d(TAG, "press New Game"/* + event.getX() + " " + event.getY() + " "
+                        + itemCoords[0].toString()*/);
+            } else if (itemCoords[1].contains(event.getX(), event.getY())) {
+                Log.d(TAG, "press Continue"/* + event.getX() + " " + event.getY() + " "
+                        + itemCoords[1].toString()*/);
+            } else if (itemCoords[2].contains(event.getX(), event.getY())) {
+                Log.d(TAG, "press Instructions"/* + event.getX() + " " + event.getY() + " "
+                        + itemCoords[2].toString()*/);
+            } else if (itemCoords[3].contains(event.getX(), event.getY())) {
+                Log.d(TAG, "press Quit"/* + event.getX() + " " + event.getY() + " "
+                        + itemCoords[3].toString()*/);
             }
         }
-        return false;
+        return true;
     }
 
     RectF getRectF (float x, float y) {
@@ -67,6 +69,20 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
         //событие - SurfaceView создан и готов к отображению информации
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
+            Canvas canv = holder.lockCanvas();
+            int centerX = canv.getWidth()/2;
+            int centerY = canv.getHeight()/2;
+            itemCoords[0] = new RectF(centerX - 200, centerY - 165,
+                    centerX + 200, centerY - 105);
+            itemCoords[1] = new RectF(centerX - 200, centerY - 75,
+                    centerX + 200, centerY - 15);
+            itemCoords[2] = new RectF(centerX - 200, centerY + 15,
+                    centerX + 200, centerY + 75);
+            itemCoords[3] = new RectF(centerX - 200, centerY + 105,
+                    centerX + 200, centerY + 165);
+            holder.unlockCanvasAndPost(canv);
+            /*Log.d(TAG, "Item coords " + itemCoords[0].toString() + " " + itemCoords[1].toString()
+                    + " " + itemCoords[2].toString() + " " + itemCoords[3].toString());*/
             //создаем свой поток прорисовки, передаем ему SurfaceHolder
             drawThread = new DrawThread(getHolder());
             //ставим ему метку о том, что он может работать
@@ -129,7 +145,7 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
                             continue;
                         //метод для рисования
                         DrawMenu.drawBGround(acMenu.this, canvas, R.drawable.menu);
-                        //itemCoords = DrawMenu.drawMenuItems(acMenu.this, canvas);
+                        DrawMenu.drawMenuItems(acMenu.this, canvas, itemCoords);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем
