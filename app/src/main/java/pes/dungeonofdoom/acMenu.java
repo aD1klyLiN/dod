@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -12,11 +13,14 @@ import android.view.View;
 
 public class acMenu extends AppCompatActivity implements View.OnTouchListener{
 
-    DrawView drawView = new DrawView(this);
+    public static final String TAG = "myTag";
+
+    DrawView drawView = new DrawView(acMenu.this);
     float[] itemCoords = new float[8];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "launch acMenu onCreate");
         super.onCreate(savedInstanceState);
         //в метод onCreate передаём объект DrawView
         drawView.setOnTouchListener(this);
@@ -32,13 +36,13 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
         rectItems[3] = getRectF(itemCoords[6], itemCoords[6]);
         if (event.getAction()==MotionEvent.ACTION_DOWN) {
             if (rectItems[0].contains(event.getX(), event.getY())) {
-
+                Log.d(TAG, "press New Game");
             } else if (rectItems[1].contains(event.getX(), event.getY())) {
-
+                Log.d(TAG, "press Continue");
             } else if (rectItems[2].contains(event.getX(), event.getY())) {
-
+                Log.d(TAG, "press Instructions");
             } else if (rectItems[3].contains(event.getX(), event.getY())) {
-
+                Log.d(TAG, "press Quit");
             }
         }
         return false;
@@ -54,6 +58,7 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
 
         public DrawView(Context context) {
             super(context);
+            Log.d(TAG, "create new DrawView");
             //получаем SurfaceHolder и сообщаем ему, что сами будем
             // обрабатывать его события
             getHolder().addCallback(this);
@@ -124,7 +129,7 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
                             continue;
                         //метод для рисования
                         DrawMenu.drawBGround(acMenu.this, canvas, R.drawable.menu);
-                        itemCoords = DrawMenu.drawMenuItems(acMenu.this, canvas);
+                        //itemCoords = DrawMenu.drawMenuItems(acMenu.this, canvas);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем
