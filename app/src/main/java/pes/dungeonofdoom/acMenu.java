@@ -69,6 +69,8 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
         //событие - SurfaceView создан и готов к отображению информации
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
+
+            // задаём координаты пунктов меню
             Canvas canv = holder.lockCanvas();
             int centerX = canv.getWidth()/2;
             int centerY = canv.getHeight()/2;
@@ -83,6 +85,7 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
             holder.unlockCanvasAndPost(canv);
             /*Log.d(TAG, "Item coords " + itemCoords[0].toString() + " " + itemCoords[1].toString()
                     + " " + itemCoords[2].toString() + " " + itemCoords[3].toString());*/
+
             //создаем свой поток прорисовки, передаем ему SurfaceHolder
             drawThread = new DrawThread(getHolder());
             //ставим ему метку о том, что он может работать
@@ -134,6 +137,7 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
             public void run() {
                 Canvas canvas;
                 //цикл, который выполняется пока позволяет метка работы (running)
+                Log.d(TAG, "starting DrawThread");
                 while (running) {
                     //обнуляем переменную канвы
                     canvas = null;
