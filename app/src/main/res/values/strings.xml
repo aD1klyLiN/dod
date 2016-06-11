@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Dungeon of Doom</string>
+    <string-array name="menuItems">
+        <item>Новая игра</item>
+        <item>Продолжить</item>
+        <item>Инструкции</item>
+        <item>Выход</item>
+    </string-array>
 </resources>

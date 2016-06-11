@@ -5,16 +5,18 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 /**
  * Created by lylin on 08.06.16.
  * отрисовка Intro
  */
-public class DrawIntro {
+public class DrawUtils {
 
-    static void drawBGround(Context ctx, Canvas canv, int resID) {
+    public static void drawBGround(Context ctx, Canvas canv, int resID, String flag) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         int cHeight = canv.getHeight();
         int cWidth = canv.getWidth();
@@ -22,26 +24,40 @@ public class DrawIntro {
                 resID, cWidth, cHeight);
         int bWidth = bitmap.getWidth();
         int bHeight = bitmap.getHeight();
-        int x1, y1, x2, y2;
-        double sX = (double)cWidth/bWidth;
-        double sY = (double)cHeight/bHeight;
-        if (sX>sY) {
-            x1 = (int)(cWidth-bWidth*sY)/2;
-            y1 = 0;
-            x2 = (int)(x1 + bWidth*sY);
-            y2 = cHeight;
-        } else {
-            x1 = 0;
-            y1 = (int)(cHeight-bHeight*sX)/2;
-            x2 = cWidth;
-            y2 = (int)(y1 + bHeight*sX);
+        Rect rectSrc, rectDst;
+        switch (flag) {
+            case (acIntro.FLAG):
+                int x1, y1, x2, y2;
+                double sX = (double)cWidth/bWidth;
+                double sY = (double)cHeight/bHeight;
+                if (sX>sY) {
+                    x1 = (int)(cWidth-bWidth*sY)/2;
+                    y1 = 0;
+                    x2 = (int)(x1 + bWidth*sY);
+                    y2 = cHeight;
+                } else {
+                    x1 = 0;
+                    y1 = (int)(cHeight-bHeight*sX)/2;
+                    x2 = cWidth;
+                    y2 = (int)(y1 + bHeight*sX);
+                }
+                rectSrc = new Rect(0, 0, bWidth, bHeight);
+                rectDst = new Rect(x1, y1, x2, y2);
+                    /*Rect rectDst = new Rect((w-bitmap.getWidth())/2, (h-bitmap.getHeight())/2,
+                            (w-bitmap.getWidth())/2+bitmap.getWidth(),
+                            (h-bitmap.getHeight())/2+bitmap.getHeight());*/
+                canv.drawARGB(100, 0, 0, 0);
+                break;
+            case (acMenu.FLAG):
+                rectSrc = new Rect(0, 0, bWidth, bHeight);
+                rectDst = new Rect(0, 0, cWidth, cHeight);
+                break;
+            default:
+                rectSrc = new Rect(0, 0, bWidth, bHeight);
+                rectDst = new Rect(0, 0, cWidth, cHeight);
+                break;
         }
-        Rect rectSrc = new Rect(0, 0, bWidth, bHeight);
-        Rect rectDst = new Rect(x1, y1, x2, y2);
-                /*Rect rectDst = new Rect((w-bitmap.getWidth())/2, (h-bitmap.getHeight())/2,
-                        (w-bitmap.getWidth())/2+bitmap.getWidth(),
-                        (h-bitmap.getHeight())/2+bitmap.getHeight());*/
-        canv.drawARGB(100, 0, 0, 0);
+
         canv.drawBitmap(bitmap, rectSrc, rectDst, paint);
     }
 
@@ -83,5 +99,26 @@ public class DrawIntro {
         }
 
         return inSampleSize;
+    }
+
+    static void drawMenuItems (Context ctx, Canvas canv, RectF[] itemCoords) {
+
+        Paint paint = new Paint();
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(24);
+        String[] item = ctx.getResources().getStringArray(R.array.menuItems);
+
+        for (int i = 0; i <=3; i++) {
+            //Log.d(TAG, "item 1 is " + itemCoords[i].toString());
+            paint.setColor(Color.WHITE);
+            canv.drawRect(itemCoords[i], paint);
+            paint.setColor(Color.BLACK);
+            canv.drawText(item[i], itemCoords[i].centerX(),
+                    itemCoords[i].centerY() + paint.getTextSize() / 2, paint);
+            paint.setColor(Color.DKGRAY);
+            canv.drawText(item[i], itemCoords[i].centerX(),
+                    itemCoords[i].centerY() + paint.getTextSize()/2, paint);
+        }
+
     }
 }

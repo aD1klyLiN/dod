@@ -14,6 +14,7 @@ import android.view.View;
 public class acMenu extends AppCompatActivity implements View.OnTouchListener{
 
     public static final String TAG = "myTag";
+    public static final String FLAG = "Menu";
 
     DrawView drawView;
     RectF[] itemCoords;
@@ -148,8 +149,8 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
                         if (canvas == null)
                             continue;
                         //метод для рисования
-                        DrawMenu.drawBGround(acMenu.this, canvas, R.drawable.menu);
-                        DrawMenu.drawMenuItems(acMenu.this, canvas, itemCoords);
+                        DrawUtils.drawBGround(acMenu.this, canvas, R.drawable.menu, FLAG);
+                        DrawUtils.drawMenuItems(acMenu.this, canvas, itemCoords);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем

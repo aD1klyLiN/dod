@@ -14,6 +14,7 @@ import android.view.View;
 public class acIntro extends AppCompatActivity implements View.OnTouchListener{
 
     public static final String TAG = "myTag";
+    public static final String FLAG = "Intro";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,7 +134,7 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
                         if (canvas == null)
                             continue;
                         //метод для рисования
-                        DrawIntro.drawBGround(acIntro.this, canvas, R.drawable.title);
+                        DrawUtils.drawBGround(acIntro.this, canvas, R.drawable.title, FLAG);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем
