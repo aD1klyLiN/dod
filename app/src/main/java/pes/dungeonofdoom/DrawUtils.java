@@ -105,19 +105,19 @@ public class DrawUtils {
 
         Paint paint = new Paint();
         paint.setTextAlign(Paint.Align.CENTER);
-        paint.setTextSize(24);
+        paint.setTextSize(28);
         String[] item = ctx.getResources().getStringArray(R.array.menuItems);
 
         for (int i = 0; i <=3; i++) {
             //Log.d(TAG, "item 1 is " + itemCoords[i].toString());
-            paint.setColor(Color.WHITE);
-            canv.drawRect(itemCoords[i], paint);
-            paint.setColor(Color.BLACK);
-            canv.drawText(item[i], itemCoords[i].centerX(),
-                    itemCoords[i].centerY() + paint.getTextSize() / 2, paint);
+            paint.setARGB(200, 238, 221, 130);
+            canv.drawRoundRect(itemCoords[i], 30, 10, paint);
             paint.setColor(Color.DKGRAY);
-            canv.drawText(item[i], itemCoords[i].centerX(),
-                    itemCoords[i].centerY() + paint.getTextSize()/2, paint);
+            canv.drawText(item[i], itemCoords[i].centerX() + 1,
+                    itemCoords[i].centerY() + 1 + paint.getTextSize() / 2, paint);
+            paint.setColor(Color.WHITE);
+            canv.drawText(item[i], itemCoords[i].centerX() - 1,
+                    itemCoords[i].centerY() - 1 + paint.getTextSize()/2, paint);
         }
 
     }
