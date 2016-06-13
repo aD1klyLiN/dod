@@ -1,100 +1,54 @@
 package pes.dungeonofdoom;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 
-public class acMenu extends AppCompatActivity implements View.OnTouchListener{
+public class acChar extends AppCompatActivity implements View.OnTouchListener{
 
     public static final String TAG = "myTag";
-    public static final String FLAG = "Menu";
+    public static final String FLAG = "Char";
 
     DrawView drawView;
     RectF[] itemCoords;
+    Charc charc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "launch acMenu onCreate");
         super.onCreate(savedInstanceState);
         //в метод onCreate передаём объект DrawView
-        drawView = new DrawView(acMenu.this);
+        drawView = new DrawView(this);
         drawView.setOnTouchListener(this);
         setContentView(drawView);
+        Log.d(TAG, "create acChar");
 
-        itemCoords = new RectF[4];
+        itemCoords = new RectF[3];
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (event.getAction()==MotionEvent.ACTION_DOWN) {
-            if (itemCoords[0].contains(event.getX(), event.getY())) {
+        //обработаем нажатие на экран
+        boolean action = false;
 
-                AlertDialog.Builder bld = new AlertDialog.Builder(acMenu.this);
-                final LinearLayout view = (LinearLayout) getLayoutInflater()
-                        .inflate(R.layout.dlg_inputname, null);
-                bld.setTitle(getResources().getString(R.string.input_name))
-                        .setView(view)
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                EditText etInput = (EditText) view.findViewById(R.id.etInput);
-                                String name = etInput.getText().toString();
-                                if (name.length()>0&&name.length()<=40) {
-                                    Intent it = new Intent(acMenu.this, acChar.class);
-                                    it.putExtra("name", name);
-                                    startActivity(it);
-                                }
-                            }
-                        })
-                        .setCancelable(true);
-                AlertDialog ad = bld.create();
-                ad.show();
-
-                Log.d(TAG, "press New Game"/* + event.getX() + " " + event.getY() + " "
-                        + itemCoords[0].toString()*/);
-            } else if (itemCoords[1].contains(event.getX(), event.getY())) {
-                Log.d(TAG, "press Continue"/* + event.getX() + " " + event.getY() + " "
-                        + itemCoords[1].toString()*/);
-            } else if (itemCoords[2].contains(event.getX(), event.getY())) {
-                Log.d(TAG, "press Instructions"/* + event.getX() + " " + event.getY() + " "
-                        + itemCoords[2].toString()*/);
-            } else if (itemCoords[3].contains(event.getX(), event.getY())) {
-                Log.d(TAG, "press Quit"/* + event.getX() + " " + event.getY() + " "
-                        + itemCoords[3].toString()*/);
-            }
-        }
-        return true;
-    }
-
-    RectF getRectF (float x, float y) {
-        return new RectF(x-25, y-200, x+25, y+200);
+        return action;
     }
 
     private void setItemCoords (SurfaceHolder holder) {
         // задаём координаты пунктов меню
         Canvas canv = holder.lockCanvas();
-        int centerX = canv.getWidth()/2;
-        int centerY = canv.getHeight()/2;
-        itemCoords[0] = new RectF(centerX - 200, centerY - 165,
-                centerX + 200, centerY - 105);
-        itemCoords[1] = new RectF(centerX - 200, centerY - 75,
-                centerX + 200, centerY - 15);
-        itemCoords[2] = new RectF(centerX - 200, centerY + 15,
-                centerX + 200, centerY + 75);
-        itemCoords[3] = new RectF(centerX - 200, centerY + 105,
-                centerX + 200, centerY + 165);
+        int w = canv.getWidth();
+        int h = canv.getHeight();
+        itemCoords[0] = new RectF((float)(w*0.15), (float)(h*0.7625),
+                (float)(w*0.45), (float)(h*0.8625));
+        itemCoords[1] = new RectF((float)(w*0.55), (float)(h*0.7625),
+                (float)(w*0.85), (float)(h*0.8625));
         holder.unlockCanvasAndPost(canv);
             /*Log.d(TAG, "Item coords " + itemCoords[0].toString() + " " + itemCoords[1].toString()
                     + " " + itemCoords[2].toString() + " " + itemCoords[3].toString());*/
@@ -106,7 +60,6 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
 
         public DrawView(Context context) {
             super(context);
-            Log.d(TAG, "create new DrawView");
             //получаем SurfaceHolder и сообщаем ему, что сами будем
             // обрабатывать его события
             getHolder().addCallback(this);
@@ -145,6 +98,11 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
                     drawThread.join();
                     retry = false;
                 } catch (InterruptedException e) {
+                    /*AlertDialog.Builder bld = new AlertDialog.Builder(acIntro.this);
+                    bld.setTitle("ERROR!!!")
+                            .setCancelable(false);
+                    AlertDialog ad = bld.create();
+                    ad.show();*/
                 }
             }
         }
@@ -169,7 +127,6 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
             public void run() {
                 Canvas canvas;
                 //цикл, который выполняется пока позволяет метка работы (running)
-                Log.d(TAG, "starting DrawThread");
                 while (running) {
                     //обнуляем переменную канвы
                     canvas = null;
@@ -180,8 +137,8 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
                         if (canvas == null)
                             continue;
                         //метод для рисования
-                        DrawUtils.drawBGround(acMenu.this, canvas, R.drawable.menu, FLAG);
-                        DrawUtils.drawMenuItems(acMenu.this, canvas, itemCoords);
+                        DrawUtils.drawBGround(acChar.this, canvas, R.drawable.back, FLAG);
+                        DrawUtils.drawCharItems(acChar.this, canvas, itemCoords, charc);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем

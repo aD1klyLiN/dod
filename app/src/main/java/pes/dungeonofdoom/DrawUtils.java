@@ -49,6 +49,7 @@ public class DrawUtils {
                 canv.drawARGB(100, 0, 0, 0);
                 break;
             case (acMenu.FLAG):
+            case (acChar.FLAG):
                 rectSrc = new Rect(0, 0, bWidth, bHeight);
                 rectDst = new Rect(0, 0, cWidth, cHeight);
                 break;
@@ -110,7 +111,28 @@ public class DrawUtils {
 
         for (int i = 0; i <=3; i++) {
             //Log.d(TAG, "item 1 is " + itemCoords[i].toString());
-            paint.setARGB(200, 238, 221, 130);
+            paint.setColor(ctx.getResources().getColor(R.color.button));
+            canv.drawRoundRect(itemCoords[i], 30, 10, paint);
+            paint.setColor(Color.DKGRAY);
+            canv.drawText(item[i], itemCoords[i].centerX() + 1,
+                    itemCoords[i].centerY() + 1 + paint.getTextSize() / 2, paint);
+            paint.setColor(Color.WHITE);
+            canv.drawText(item[i], itemCoords[i].centerX() - 1,
+                    itemCoords[i].centerY() - 1 + paint.getTextSize()/2, paint);
+        }
+
+    }
+
+    static void drawCharItems (Context ctx, Canvas canv, RectF[] itemCoords, Charc charc) {
+
+        Paint paint = new Paint();
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(28);
+        String[] item = ctx.getResources().getStringArray(R.array.char_items);
+
+        for (int i = 0; i <=1; i++) {
+            //Log.d(TAG, "item 1 is " + itemCoords[i].toString());
+            paint.setColor(ctx.getResources().getColor(R.color.button));
             canv.drawRoundRect(itemCoords[i], 30, 10, paint);
             paint.setColor(Color.DKGRAY);
             canv.drawText(item[i], itemCoords[i].centerX() + 1,
