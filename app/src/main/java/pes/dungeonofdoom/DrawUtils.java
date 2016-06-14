@@ -134,13 +134,21 @@ public class DrawUtils {
             //Log.d(TAG, "item 1 is " + itemCoords[i].toString());
             paint.setColor(ctx.getResources().getColor(R.color.button));
             canv.drawRoundRect(itemCoords[i], 30, 10, paint);
-            paint.setColor(Color.DKGRAY);
-            canv.drawText(item[i], itemCoords[i].centerX() + 1,
-                    itemCoords[i].centerY() + 1 + paint.getTextSize() / 2, paint);
-            paint.setColor(Color.WHITE);
-            canv.drawText(item[i], itemCoords[i].centerX() - 1,
-                    itemCoords[i].centerY() - 1 + paint.getTextSize()/2, paint);
+            Utils.shadowText(canv, paint, itemCoords[i], item[i]);
+        }
+
+        int w = canv.getWidth();
+        int h = canv.getHeight();
+        paint.setTextAlign(Paint.Align.RIGHT);
+        paint.setTextSize(14);
+        String[] attrs = ctx.getResources().getStringArray(R.array.char_attrs);
+        float x = (float)(0.1*w);
+        float y = (float)(0.1*h);
+
+        for (int i=0; i<=14; i++) {
+
         }
 
     }
+
 }

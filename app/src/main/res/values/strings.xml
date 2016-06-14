@@ -13,4 +13,20 @@
         <item>Начать!</item>
         <item>Заново</item>
     </string-array>
+    <string-array name="char_attrs">
+        <item>Сила</item>
+        <item>Выносливость</item>
+        <item>Ловкость</item>
+        <item>Проворство</item>
+        <item>Интеллект</item>
+        <item>Здоровье</item>
+        <item>Рукопашный бой</item>
+        <item>Оружие ближнего боя</item>
+        <item>Дистанционное оружие</item>
+        <item>Магическая атака</item>
+        <item>Защита</item>
+        <item>Магическая защита</item>
+        <item>Опыт</item>
+        <item>Золото</item>
+    </string-array>
 </resources>

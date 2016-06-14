@@ -39,7 +39,7 @@ public class Charc {
         mAcfsk = new int[2];
         mPcfsk = new int[2];
         mMcfsk = new int[2];
-        mMcfsk = new int[2];
+        mCdfsk = new int[2];
         mMdfsk = new int[2];
         mCurrxp = 0;
         mTotxp = 0;
@@ -54,8 +54,9 @@ public class Charc {
 
     }
 
-    public Charc genCharacter() {
+    public Charc genCharacter(String name) {
         Charc ret = new Charc();
+        ret.mCname = name;
         ret.mStratt[0] = Utils.rnd(1, 20);
         ret.mStaatt[0] = Utils.rnd(1, 20);
         ret.mDexatt[0] = Utils.rnd(1, 20);
@@ -77,12 +78,4 @@ public class Charc {
         return ret;
     }
 
-    public boolean inputName(String name) {
-        if (name.length()<1||name.length()>40) {
-            return false;
-        } else {
-            this.mCname = name;
-            return true;
-        }
-    }
 }

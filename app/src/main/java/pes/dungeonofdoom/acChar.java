@@ -1,6 +1,7 @@
 package pes.dungeonofdoom;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.os.Bundle;
@@ -30,6 +31,10 @@ public class acChar extends AppCompatActivity implements View.OnTouchListener{
         Log.d(TAG, "create acChar");
 
         itemCoords = new RectF[3];
+        charc = new Charc();
+
+        Intent it = getIntent();
+        charc.genCharacter(it.getStringExtra("name"));
     }
 
     @Override
