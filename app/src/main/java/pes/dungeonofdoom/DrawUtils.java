@@ -139,14 +139,34 @@ public class DrawUtils {
 
         int w = canv.getWidth();
         int h = canv.getHeight();
-        paint.setTextAlign(Paint.Align.RIGHT);
-        paint.setTextSize(14);
-        String[] attrs = ctx.getResources().getStringArray(R.array.char_attrs);
-        float x = (float)(0.1*w);
-        float y = (float)(0.1*h);
+        Utils.shadowText(canv, paint, (float)(0.5*w), (float)(0.1413*h), charc.getCname());
+        paint.setTextAlign(Paint.Align.LEFT);
+        paint.setTextSize(22);
+        String[] attrNames = ctx.getResources().getStringArray(R.array.char_attrs);
+        String[] attrs = charc.printStats();
+        float x = (float)(0.15*w);
+        float y = (float)(0.2451*h);
 
-        for (int i=0; i<=14; i++) {
+        for (int i=0; i<=5; i++) {
+            Utils.shadowText(canv, paint, x, y, attrNames[i]);
+            Utils.shadowText(canv, paint, (float)(x+0.2*w), y, attrs[i]);
+            y = (float)(y + 0.0519*h);
+        }
 
+        y = (float)(0.2451*h);
+
+        for (int i=6; i<=11; i++) {
+            Utils.shadowText(canv, paint, (float)(x+0.4*w), y, attrNames[i]);
+            Utils.shadowText(canv, paint, (float)(x+0.7*w), y, attrs[i]);
+            y = (float)(y + 0.0519*h);
+        }
+
+        y = (float)(y + 0.0729*h);
+
+        for (int i=12; i<=13; i++) {
+            Utils.shadowText(canv, paint, (float)(0.5*w), y, attrNames[i]);
+            Utils.shadowText(canv, paint, (float)(0.7*w), y, attrs[i]);
+            y = (float)(y + 0.0519*h);
         }
 
     }

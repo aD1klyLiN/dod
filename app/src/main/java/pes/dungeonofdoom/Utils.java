@@ -21,4 +21,13 @@ public class Utils {
         canv.drawText(text, rectF.centerX() - 1,
                 rectF.centerY() - 1 + paint.getTextSize()/2, paint);
     }
+
+    public static void shadowText(Canvas canv, Paint paint, float x, float y, String text) {
+        paint.setColor(Color.DKGRAY);
+        canv.drawText(text, x + 1,
+                y + 1 + paint.getTextSize() / 2, paint);
+        paint.setColor(Color.WHITE);
+        canv.drawText(text, x - 1,
+                y - 1 + paint.getTextSize()/2, paint);
+    }
 }

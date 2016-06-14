@@ -8,7 +8,7 @@
     </string-array>
     <string name="input_name">Введите имя персонажа</string>
     <string name="default_name">Странник</string>
-    <string name="name_hint">Длина имени от 0 до 40 символов</string>
+    <string name="name_hint">Длина имени от 1 до 40 символов</string>
     <string-array name="char_items">
         <item>Начать!</item>
         <item>Заново</item>

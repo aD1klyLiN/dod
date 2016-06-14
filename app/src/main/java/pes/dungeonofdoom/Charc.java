@@ -50,8 +50,27 @@ public class Charc {
 
     }
 
-    public void printStats() {
+    public String[] printStats() {
+        String[] attrs = new String[14];
+        attrs[0] = Integer.toString(mStratt[0] + mStratt[1]);
+        attrs[1] = Integer.toString(mStaatt[0] + mStaatt[1]);
+        attrs[2] = Integer.toString(mDexatt[0] + mDexatt[1]);
+        attrs[3] = Integer.toString(mAglatt[0] + mAglatt[1]);
+        attrs[4] = Integer.toString(mIntatt[0] + mIntatt[1]);
+        attrs[5] = Integer.toString(mCurrhp);
+        attrs[6] = Integer.toString(mUcfsk[0] + mUcfsk[1]);
+        attrs[7] = Integer.toString(mAcfsk[0] + mAcfsk[1]);
+        attrs[8] = Integer.toString(mPcfsk[0] + mPcfsk[1]);
+        attrs[9] = Integer.toString(mMcfsk[0] + mMcfsk[1]);
+        attrs[10] = Integer.toString(mCdfsk[0] + mCdfsk[1]);
+        attrs[11] = Integer.toString(mMdfsk[0] + mMdfsk[1]);
+        attrs[12] = Integer.toString(mCurrxp);
+        attrs[13] = Integer.toString(mCurrgold);
+        return attrs;
+    }
 
+    public String getCname() {
+        return mCname;
     }
 
     public Charc genCharacter(String name) {

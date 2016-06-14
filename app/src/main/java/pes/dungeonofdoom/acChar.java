@@ -20,6 +20,7 @@ public class acChar extends AppCompatActivity implements View.OnTouchListener{
     DrawView drawView;
     RectF[] itemCoords;
     Charc charc;
+    Intent it;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,19 +31,29 @@ public class acChar extends AppCompatActivity implements View.OnTouchListener{
         setContentView(drawView);
         Log.d(TAG, "create acChar");
 
-        itemCoords = new RectF[3];
+        itemCoords = new RectF[2];
         charc = new Charc();
 
-        Intent it = getIntent();
-        charc.genCharacter(it.getStringExtra("name"));
+        it = getIntent();
+        charc = charc.genCharacter(it.getStringExtra("name"));
     }
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         //обработаем нажатие на экран
-        boolean action = false;
+        if (event.getAction()==MotionEvent.ACTION_DOWN) {
+            if (itemCoords[0].contains(event.getX(), event.getY())) {
 
-        return action;
+                Log.d(TAG, "press Start"/* + event.getX() + " " + event.getY() + " "
+                        + itemCoords[0].toString()*/);
+            } else if (itemCoords[1].contains(event.getX(), event.getY())) {
+                charc = charc.genCharacter(it.getStringExtra("name"));
+
+                Log.d(TAG, "press Reset"/* + event.getX() + " " + event.getY() + " "
+                        + itemCoords[1].toString()*/);
+            }
+        }
+        return true;
     }
 
     private void setItemCoords (SurfaceHolder holder) {
