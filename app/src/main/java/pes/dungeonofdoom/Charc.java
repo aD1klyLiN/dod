@@ -1,7 +1,7 @@
 package pes.dungeonofdoom;
 
 /**
- * Created by lylin on 12.06.16.
+ * класс описывает персонажа игры
  */
 public class Charc {
 
@@ -26,8 +26,11 @@ public class Charc {
     private int mLocX; //Текущая x координата персонажа на карте.
     private int mLocY; //Текущая y координата персонажа на карте.
 
+    /**
+     * конструктор
+     */
     public Charc() {
-        mCname = new String();
+        //mCname = new String();
         mStratt = new int[2];
         mStaatt = new int[2];
         mDexatt = new int[2];
@@ -50,6 +53,10 @@ public class Charc {
 
     }
 
+    /**
+     * метод возвращает строковый массив со значениями характеристик персонажа
+     * @return - готовый массив с характеристиками
+     */
     public String[] printStats() {
         String[] attrs = new String[14];
         attrs[0] = Integer.toString(mStratt[0] + mStratt[1]);
@@ -69,10 +76,19 @@ public class Charc {
         return attrs;
     }
 
+    /**
+     * метод возвращает имя персонажа
+     * @return - имя
+     */
     public String getCname() {
         return mCname;
     }
 
+    /**
+     * метод генерирует персонажа со случайными характеристикиами
+     * @param name - имя персонажа
+     * @return - созданный персонаж
+     */
     public Charc genCharacter(String name) {
         Charc ret = new Charc();
         ret.mCname = name;

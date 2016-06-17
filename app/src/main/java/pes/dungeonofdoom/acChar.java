@@ -12,15 +12,19 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+/**
+ * экран характеристик персонажа
+ *
+ */
 public class acChar extends AppCompatActivity implements View.OnTouchListener{
 
     public static final String TAG = "myTag";
-    public static final String FLAG = "Char";
+    public static final String FLAG = "Char"; //метка экрана
 
     DrawView drawView;
-    RectF[] itemCoords;
-    Charc charc;
-    Intent it;
+    RectF[] itemCoords; //координаты кнопок управления
+    Charc charc; //новый персонаж
+    Intent it; //intent с именем персонажа
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,10 @@ public class acChar extends AppCompatActivity implements View.OnTouchListener{
         Log.d(TAG, "create acChar");
 
         itemCoords = new RectF[2];
+        //создадим нового персонажа
         charc = new Charc();
 
+        //получим имя персонажа, введённое в диалоге меню
         it = getIntent();
         charc = charc.genCharacter(it.getStringExtra("name"));
     }
@@ -43,14 +49,14 @@ public class acChar extends AppCompatActivity implements View.OnTouchListener{
         //обработаем нажатие на экран
         if (event.getAction()==MotionEvent.ACTION_DOWN) {
             if (itemCoords[0].contains(event.getX(), event.getY())) {
-
                 Log.d(TAG, "press Start"/* + event.getX() + " " + event.getY() + " "
                         + itemCoords[0].toString()*/);
+                //переход к началу игры
             } else if (itemCoords[1].contains(event.getX(), event.getY())) {
-                charc = charc.genCharacter(it.getStringExtra("name"));
-
                 Log.d(TAG, "press Reset"/* + event.getX() + " " + event.getY() + " "
                         + itemCoords[1].toString()*/);
+                //сгенерировать характеристики по новой
+                charc = charc.genCharacter(it.getStringExtra("name"));
             }
         }
         return true;
@@ -85,6 +91,7 @@ public class acChar extends AppCompatActivity implements View.OnTouchListener{
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
 
+            //установим координаты кнопок меню для метода onTouch
             setItemCoords(holder);
 
             //создаем свой поток прорисовки, передаем ему SurfaceHolder
@@ -152,7 +159,7 @@ public class acChar extends AppCompatActivity implements View.OnTouchListener{
                         //проверяем, что канва не null, и можно рисовать
                         if (canvas == null)
                             continue;
-                        //метод для рисования
+                        //методы для рисования
                         DrawUtils.drawBGround(acChar.this, canvas, R.drawable.back, FLAG);
                         DrawUtils.drawCharItems(acChar.this, canvas, itemCoords, charc);
                     } finally {

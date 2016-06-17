@@ -15,14 +15,18 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
+/**
+ * экран главного меню
+ */
 public class acMenu extends AppCompatActivity implements View.OnTouchListener{
 
     public static final String TAG = "myTag";
-    public static final String FLAG = "Menu";
+    public static final String FLAG = "Menu"; //метка экрана
 
     DrawView drawView;
-    RectF[] itemCoords;
+    RectF[] itemCoords; //массив с координатами кнопок меню
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +44,10 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
     public boolean onTouch(View v, MotionEvent event) {
         if (event.getAction()==MotionEvent.ACTION_DOWN) {
             if (itemCoords[0].contains(event.getX(), event.getY())) {
-
+                Log.d(TAG, "press New Game"/* + event.getX() + " " + event.getY() + " "
+                        + itemCoords[0].toString()*/);
+                //создание персонажа
+                //нажатие на кнопку вызовет диалог ввода имени
                 AlertDialog.Builder bld = new AlertDialog.Builder(acMenu.this);
                 final LinearLayout view = (LinearLayout) getLayoutInflater()
                         .inflate(R.layout.dlg_inputname, null);
@@ -51,35 +58,34 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
                             public void onClick(DialogInterface dialog, int which) {
                                 EditText etInput = (EditText) view.findViewById(R.id.etInput);
                                 String name = etInput.getText().toString();
+                                //если имя введено верно, переход на экран характеристик
                                 if (name.length()>0&&name.length()<=40) {
                                     Intent it = new Intent(acMenu.this, acChar.class);
                                     it.putExtra("name", name);
                                     startActivity(it);
+                                } else {
+                                    Toast.makeText(acMenu.this, "Неверный ввод", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         })
                         .setCancelable(true);
                 AlertDialog ad = bld.create();
                 ad.show();
-
-                Log.d(TAG, "press New Game"/* + event.getX() + " " + event.getY() + " "
-                        + itemCoords[0].toString()*/);
             } else if (itemCoords[1].contains(event.getX(), event.getY())) {
                 Log.d(TAG, "press Continue"/* + event.getX() + " " + event.getY() + " "
                         + itemCoords[1].toString()*/);
+                //нажатие на кнопку загрузит сохранённую игру
             } else if (itemCoords[2].contains(event.getX(), event.getY())) {
                 Log.d(TAG, "press Instructions"/* + event.getX() + " " + event.getY() + " "
                         + itemCoords[2].toString()*/);
+                //нажатие на кнопку покажет экран инструкций
             } else if (itemCoords[3].contains(event.getX(), event.getY())) {
                 Log.d(TAG, "press Quit"/* + event.getX() + " " + event.getY() + " "
                         + itemCoords[3].toString()*/);
+                //нажатие на кнопку завершит программу
             }
         }
         return true;
-    }
-
-    RectF getRectF (float x, float y) {
-        return new RectF(x-25, y-200, x+25, y+200);
     }
 
     private void setItemCoords (SurfaceHolder holder) {
@@ -116,6 +122,7 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
         @Override
         public void surfaceCreated(SurfaceHolder holder) {
 
+            //установим координаты кнопок меню для метода onTouch
             setItemCoords(holder);
 
             //создаем свой поток прорисовки, передаем ему SurfaceHolder

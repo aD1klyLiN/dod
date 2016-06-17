@@ -11,22 +11,35 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 
 /**
- * Created by lylin on 08.06.16.
- * отрисовка Intro
+ * вспомогательные методы для отрисовки
  */
 public class DrawUtils {
 
+    /**
+     * метод рисует на экране фон
+     * @param ctx - контекст
+     * @param canv - канва, на которой нужно рисовать
+     * @param resID - ID картинки
+     * @param flag - метка экрана
+     */
     public static void drawBGround(Context ctx, Canvas canv, int resID, String flag) {
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        //получим размеры канвы
         int cHeight = canv.getHeight();
         int cWidth = canv.getWidth();
+        //в bitmap загружаем нужную картинку, подогнанную под канву
         Bitmap bitmap = decodeSampledBitmapFromResource(ctx.getResources(),
                 resID, cWidth, cHeight);
+        //получим размеры картинки
         int bWidth = bitmap.getWidth();
         int bHeight = bitmap.getHeight();
         Rect rectSrc, rectDst;
+        //выберем способ отображения картинки в зависимости от
+        //метки экрана
         switch (flag) {
             case (acIntro.FLAG):
+                //для вступительного экрана картинка отобразится с сохранением
+                //пропорций
                 int x1, y1, x2, y2;
                 double sX = (double)cWidth/bWidth;
                 double sY = (double)cHeight/bHeight;
@@ -50,6 +63,10 @@ public class DrawUtils {
                 break;
             case (acMenu.FLAG):
             case (acChar.FLAG):
+                //для экранов:
+                //- меню
+                //- характеристики персонажа
+                //картинка будет растянута на весь экран
                 rectSrc = new Rect(0, 0, bWidth, bHeight);
                 rectDst = new Rect(0, 0, cWidth, cHeight);
                 break;
@@ -59,9 +76,18 @@ public class DrawUtils {
                 break;
         }
 
+        //выведем bitmap с картинкой на канву
         canv.drawBitmap(bitmap, rectSrc, rectDst, paint);
     }
 
+    /**
+     * метод создаёт bitmap с подогнанной под размеры экрана картинкой
+     * @param res - источник ресурсов
+     * @param resId - ID картинки
+     * @param reqWidth - требуемая ширина
+     * @param reqHeight - требуемая высота
+     * @return - готовый bitmap с картинкой
+     */
     public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId,
                                                   int reqWidth, int reqHeight) {
 
@@ -79,6 +105,13 @@ public class DrawUtils {
         return BitmapFactory.decodeResource(res, resId, options);
     }
 
+    /**
+     * метод считает степень сжатия картинки
+     * @param options - параметры загрузки bitmap
+     * @param reqWidth - требуемая ширина
+     * @param reqHeight - требуемая высота
+     * @return - готовый коэффициент сжатия
+     */
     public static int calculateInSampleSize(
             BitmapFactory.Options options, int reqWidth, int reqHeight) {
         // Реальные размеры изображения
@@ -102,52 +135,76 @@ public class DrawUtils {
         return inSampleSize;
     }
 
+    /**
+     * метод рисует пункты меню на экране главного меню
+     * @param ctx - контекст
+     * @param canv - канва
+     * @param itemCoords - массив координат пунктов меню
+     */
     static void drawMenuItems (Context ctx, Canvas canv, RectF[] itemCoords) {
 
+        //задаём кисть
         Paint paint = new Paint();
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(28);
+        //получаем названия пунктов меню из ресурсов
         String[] item = ctx.getResources().getStringArray(R.array.menuItems);
 
-        for (int i = 0; i <=3; i++) {
+        for (int i = 0; i < item.length; i++) {
             //Log.d(TAG, "item 1 is " + itemCoords[i].toString());
             paint.setColor(ctx.getResources().getColor(R.color.button));
+            //рисуем кнопку
             canv.drawRoundRect(itemCoords[i], 30, 10, paint);
-            paint.setColor(Color.DKGRAY);
-            canv.drawText(item[i], itemCoords[i].centerX() + 1,
-                    itemCoords[i].centerY() + 1 + paint.getTextSize() / 2, paint);
-            paint.setColor(Color.WHITE);
-            canv.drawText(item[i], itemCoords[i].centerX() - 1,
-                    itemCoords[i].centerY() - 1 + paint.getTextSize()/2, paint);
+            //рисуем текст на кнопке
+            Utils.shadowText(canv, paint, itemCoords[i], item[i]);
         }
 
     }
 
+    /**
+     * метод рисует характеристики персонажа и кнопки управления
+     * на экране характеристик
+     * @param ctx - контекст
+     * @param canv - канва
+     * @param itemCoords - координаты кнопок управления
+     * @param charc - отображаемый персонаж
+     */
     static void drawCharItems (Context ctx, Canvas canv, RectF[] itemCoords, Charc charc) {
 
+        //подготовим кисть
         Paint paint = new Paint();
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setTextSize(28);
+        //получим названия кнопок управления из ресурсов
         String[] item = ctx.getResources().getStringArray(R.array.char_items);
 
-        for (int i = 0; i <=1; i++) {
+        for (int i = 0; i < item.length; i++) {
             //Log.d(TAG, "item 1 is " + itemCoords[i].toString());
             paint.setColor(ctx.getResources().getColor(R.color.button));
+            //рисуем кнопку
             canv.drawRoundRect(itemCoords[i], 30, 10, paint);
+            //рисуем текст на кнопке
             Utils.shadowText(canv, paint, itemCoords[i], item[i]);
         }
 
+        //получаем размеры канвы
         int w = canv.getWidth();
         int h = canv.getHeight();
+        //рисуем заголовок с именем персонажа
         Utils.shadowText(canv, paint, (float)(0.5*w), (float)(0.1413*h), charc.getCname());
+        //меняем кисть
         paint.setTextAlign(Paint.Align.LEFT);
         paint.setTextSize(22);
+        //получаем названия характеристик из ресурсов
         String[] attrNames = ctx.getResources().getStringArray(R.array.char_attrs);
+        //получаем значения характеристик персонажа
         String[] attrs = charc.printStats();
+        //вспомогательные величины для размещения колонок с характеристиками
         float x = (float)(0.15*w);
         float y = (float)(0.2451*h);
 
         for (int i=0; i<=5; i++) {
+            //левая колонка - статы
             Utils.shadowText(canv, paint, x, y, attrNames[i]);
             Utils.shadowText(canv, paint, (float)(x+0.2*w), y, attrs[i]);
             y = (float)(y + 0.0519*h);
@@ -156,6 +213,7 @@ public class DrawUtils {
         y = (float)(0.2451*h);
 
         for (int i=6; i<=11; i++) {
+            //правая колонка - скиллы
             Utils.shadowText(canv, paint, (float)(x+0.4*w), y, attrNames[i]);
             Utils.shadowText(canv, paint, (float)(x+0.7*w), y, attrs[i]);
             y = (float)(y + 0.0519*h);
@@ -164,6 +222,7 @@ public class DrawUtils {
         y = (float)(y + 0.0729*h);
 
         for (int i=12; i<=13; i++) {
+            //подвал - опыт и золото
             Utils.shadowText(canv, paint, (float)(0.5*w), y, attrNames[i]);
             Utils.shadowText(canv, paint, (float)(0.7*w), y, attrs[i]);
             y = (float)(y + 0.0519*h);

@@ -11,10 +11,14 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+/**
+ * вступительная заставка
+ * закрывается нажатием на экран или кнопкой "Назад"
+ */
 public class acIntro extends AppCompatActivity implements View.OnTouchListener{
 
     public static final String TAG = "myTag";
-    public static final String FLAG = "Intro";
+    public static final String FLAG = "Intro"; //метка экрана
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,8 +30,10 @@ public class acIntro extends AppCompatActivity implements View.OnTouchListener{
         Log.d(TAG, "create acIntro");
     }
 
+    /**
+     * метод для закрытия вступления и вызова меню
+     */
     public void startMenu() {
-        //вызов экрана меню и закрытие приветствия
         Log.d(TAG, "create acMenu");
         Intent intent = new Intent(this, acMenu.class);
         startActivity(intent);
