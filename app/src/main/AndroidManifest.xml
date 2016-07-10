@@ -9,7 +9,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".acIntro"
+            android:name=".acIntro1"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -17,18 +17,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <data android:name="example.com"
+                <action android:name="android.intent.action.VIEW" />
+
+                <data
+                    android:name="example.com"
                     android:scheme="http" />
-                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".acMenu"
+            android:name=".acMenu1"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".acChar"
+            android:name=".acChar1"
             android:screenOrientation="landscape" />
+        <activity android:name=".acBase"></activity>
     </application>
 
 </manifest>

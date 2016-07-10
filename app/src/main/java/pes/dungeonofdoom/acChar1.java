@@ -16,7 +16,7 @@ import android.view.View;
  * экран характеристик персонажа
  *
  */
-public class acChar extends AppCompatActivity implements View.OnTouchListener{
+public class acChar1 extends AppCompatActivity implements View.OnTouchListener{
 
     public static final String TAG = "myTag";
     public static final String FLAG = "Char"; //метка экрана
@@ -33,7 +33,7 @@ public class acChar extends AppCompatActivity implements View.OnTouchListener{
         drawView = new DrawView(this);
         drawView.setOnTouchListener(this);
         setContentView(drawView);
-        Log.d(TAG, "create acChar");
+        Log.d(TAG, "create acChar1");
 
         itemCoords = new RectF[2];
         //создадим нового персонажа
@@ -121,7 +121,7 @@ public class acChar extends AppCompatActivity implements View.OnTouchListener{
                     drawThread.join();
                     retry = false;
                 } catch (InterruptedException e) {
-                    /*AlertDialog.Builder bld = new AlertDialog.Builder(acIntro.this);
+                    /*AlertDialog.Builder bld = new AlertDialog.Builder(acIntro1.this);
                     bld.setTitle("ERROR!!!")
                             .setCancelable(false);
                     AlertDialog ad = bld.create();
@@ -160,8 +160,8 @@ public class acChar extends AppCompatActivity implements View.OnTouchListener{
                         if (canvas == null)
                             continue;
                         //методы для рисования
-                        DrawUtils.drawBGround(acChar.this, canvas, R.drawable.back, FLAG);
-                        DrawUtils.drawCharItems(acChar.this, canvas, itemCoords, charc);
+                        DrawUtils.drawBGround(acChar1.this, canvas, R.drawable.back, FLAG);
+                        DrawUtils.drawCharItems(acChar1.this, canvas, itemCoords, charc);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем

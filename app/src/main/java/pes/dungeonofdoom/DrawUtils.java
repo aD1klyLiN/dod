@@ -5,7 +5,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -37,7 +36,7 @@ public class DrawUtils {
         //выберем способ отображения картинки в зависимости от
         //метки экрана
         switch (flag) {
-            case (acIntro.FLAG):
+            case (acIntro1.FLAG):
                 //для вступительного экрана картинка отобразится с сохранением
                 //пропорций
                 int x1, y1, x2, y2;
@@ -61,8 +60,8 @@ public class DrawUtils {
                             (h-bitmap.getHeight())/2+bitmap.getHeight());*/
                 canv.drawARGB(100, 0, 0, 0);
                 break;
-            case (acMenu.FLAG):
-            case (acChar.FLAG):
+            case (acMenu1.FLAG):
+            case (acChar1.FLAG):
                 //для экранов:
                 //- меню
                 //- характеристики персонажа

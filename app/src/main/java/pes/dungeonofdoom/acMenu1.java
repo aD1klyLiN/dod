@@ -20,7 +20,7 @@ import android.widget.Toast;
 /**
  * экран главного меню
  */
-public class acMenu extends AppCompatActivity implements View.OnTouchListener{
+public class acMenu1 extends AppCompatActivity implements View.OnTouchListener{
 
     public static final String TAG = "myTag";
     public static final String FLAG = "Menu"; //метка экрана
@@ -30,10 +30,10 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d(TAG, "launch acMenu onCreate");
+        Log.d(TAG, "launch acMenu1 onCreate");
         super.onCreate(savedInstanceState);
         //в метод onCreate передаём объект DrawView
-        drawView = new DrawView(acMenu.this);
+        drawView = new DrawView(acMenu1.this);
         drawView.setOnTouchListener(this);
         setContentView(drawView);
 
@@ -48,7 +48,7 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
                         + itemCoords[0].toString()*/);
                 //создание персонажа
                 //нажатие на кнопку вызовет диалог ввода имени
-                AlertDialog.Builder bld = new AlertDialog.Builder(acMenu.this);
+                AlertDialog.Builder bld = new AlertDialog.Builder(acMenu1.this);
                 final LinearLayout view = (LinearLayout) getLayoutInflater()
                         .inflate(R.layout.dlg_inputname, null);
                 bld.setTitle(getResources().getString(R.string.input_name))
@@ -60,11 +60,11 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
                                 String name = etInput.getText().toString();
                                 //если имя введено верно, переход на экран характеристик
                                 if (name.length()>0&&name.length()<=40) {
-                                    Intent it = new Intent(acMenu.this, acChar.class);
+                                    Intent it = new Intent(acMenu1.this, acChar1.class);
                                     it.putExtra("name", name);
                                     startActivity(it);
                                 } else {
-                                    Toast.makeText(acMenu.this, "Неверный ввод", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(acMenu1.this, "Неверный ввод", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         })
@@ -187,8 +187,8 @@ public class acMenu extends AppCompatActivity implements View.OnTouchListener{
                         if (canvas == null)
                             continue;
                         //метод для рисования
-                        DrawUtils.drawBGround(acMenu.this, canvas, R.drawable.menu, FLAG);
-                        DrawUtils.drawMenuItems(acMenu.this, canvas, itemCoords);
+                        DrawUtils.drawBGround(acMenu1.this, canvas, R.drawable.menu, FLAG);
+                        DrawUtils.drawMenuItems(acMenu1.this, canvas, itemCoords);
                     } finally {
                         if (canvas != null) {
                             //после того, как нарисовали, что хотели, мы возвращаем
